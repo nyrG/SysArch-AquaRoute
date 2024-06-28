@@ -4,10 +4,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Users")
 public class User {
+
+    @Id
+    private ObjectId id;
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
@@ -89,10 +94,10 @@ public class User {
     public void setStreet(String street) {
         this.street = street;
     }
-    public String getbarangay() {
+    public String getBarangay() {
         return barangay;
     }
-    public void setbarangay(String barangay) {
+    public void setBarangay(String barangay) {
         this.barangay = barangay;
     }
     public String getCity() {
