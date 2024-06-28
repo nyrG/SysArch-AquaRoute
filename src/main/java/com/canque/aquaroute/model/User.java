@@ -1,11 +1,20 @@
 package com.canque.aquaroute.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Users")
 public class User {
 
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
     private String firstName;
