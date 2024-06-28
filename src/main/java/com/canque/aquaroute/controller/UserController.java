@@ -42,8 +42,8 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/findByEmail")
-    public ResponseEntity<?> findByEmail(@RequestParam String email) {
+    @GetMapping("/findUserByEmail")
+    public ResponseEntity<?> findUserByEmail(@RequestParam String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             return ResponseEntity.ok(user);
@@ -92,8 +92,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
     
-    @DeleteMapping("/deleteByEmail")
-    public ResponseEntity<?> deleteByEmail(@RequestParam String email) {
+    @DeleteMapping("/deleteUserByEmail")
+    public ResponseEntity<?> deleteUserByEmail(@RequestParam String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             userRepository.deleteByEmail(email);
