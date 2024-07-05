@@ -104,7 +104,7 @@ public class UserController {
     }
 
     @PutMapping("/updateUserByEmail")
-    public ResponseEntity<String> updateUserByEmail(@Valid @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<String> updateUserByEmail(@Valid @RequestParam String email, @RequestBody User newUser, BindingResult bindingResult) {
         // Check for validation errors
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
@@ -115,22 +115,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.toString().trim());
         }
 
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser == null) {
+        User user = userRepository.findByEmail(email);
+        
+        if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User account not found");
         }
 
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setMiddleName(user.getMiddleName());
-        existingUser.setBirthdate(user.getBirthdate());
-        existingUser.setStreet(user.getStreet());
-        existingUser.setBarangay(user.getBarangay());
-        existingUser.setCity(user.getCity());
-        existingUser.setProvince(user.getProvince());
-        existingUser.setPassword(user.getPassword());
+        user.setEmail(newUser.getEmail());
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setMiddleName(newUser.getMiddleName());
+        user.setBirthdate(newUser.getBirthdate());
+        user.setStreet(newUser.getStreet());
+        user.setBarangay(newUser.getBarangay());
+        user.setCity(newUser.getCity());
+        user.setProvince(newUser.getProvince());
+        user.setPassword(newUser.getPassword());
 
-        userRepository.save(existingUser);
+        userRepository.save(user);
 
         return ResponseEntity.ok("User account updated successfully");
     }
