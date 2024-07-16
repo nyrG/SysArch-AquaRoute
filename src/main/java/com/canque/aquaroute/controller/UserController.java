@@ -37,12 +37,12 @@ public class UserController {
         response.sendRedirect("/swagger-ui.html");
     }
 
-    @GetMapping("/findAllUsers")
+    @GetMapping("/findUsers")
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    @GetMapping("/findUserByEmail")
+    @GetMapping("/findUser/{email}")
     public ResponseEntity<?> findUserByEmail(@RequestParam String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
@@ -92,7 +92,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
     
-    @DeleteMapping("/deleteUserByEmail")
+    @DeleteMapping("/deleteUser/{email}")
     public ResponseEntity<?> deleteUserByEmail(@RequestParam String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
@@ -103,7 +103,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/updateUserByEmail")
+    @PutMapping("/updateUser/{email}")
     public ResponseEntity<String> updateUserByEmail(@Valid @RequestParam String email, @RequestBody User newUser, BindingResult bindingResult) {
         // Check for validation errors
         if (bindingResult.hasErrors()) {

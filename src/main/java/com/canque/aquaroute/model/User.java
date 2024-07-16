@@ -13,7 +13,7 @@ public class User {
 
     @Id
     private ObjectId id;
-
+    
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
     private String email;
@@ -50,6 +50,12 @@ public class User {
         this.password = password;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
     public String getEmail() {
         return email;
     }
