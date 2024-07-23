@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.canque.aquaroute.model.User;
+import com.canque.aquaroute.model.UserLoginRequest;
 import com.canque.aquaroute.repository.UserRepository;
 
 import springfox.documentation.annotations.ApiIgnore;
@@ -53,22 +54,30 @@ public class UserController {
     }
 
     @PostMapping("/loginUser")
-    public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> loginUser(@RequestBody @Valid UserLoginRequest loginRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error : errors) {
+                errorMessage.append(error.getDefaultMessage()).append(". ");
+            }
+            return ResponseEntity.badRequest().body(errorMessage.toString().trim());
+        }
+
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+
         if (email.trim().isEmpty() || password.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("Email or password cannot be empty");
         }
 
         User user = userRepository.findByEmail(email);
 
-        if (user == null) {
+        if (user == null || !user.getPassword().equals(password)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
 
-        if (user.getPassword().equals(password)) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-        }
+        return ResponseEntity.ok("Login successful");
     }
 
     @PostMapping("/registerUser")
@@ -122,15 +131,11 @@ public class UserController {
         }
 
         user.setEmail(newUser.getEmail());
-        user.setFirstName(newUser.getFirstName());
-        user.setLastName(newUser.getLastName());
-        user.setMiddleName(newUser.getMiddleName());
-        user.setBirthdate(newUser.getBirthdate());
-        user.setStreet(newUser.getStreet());
-        user.setBarangay(newUser.getBarangay());
-        user.setCity(newUser.getCity());
-        user.setProvince(newUser.getProvince());
         user.setPassword(newUser.getPassword());
+        user.setType(newUser.getType());
+        user.setName(newUser.getName());
+        user.setPhoneNum(newUser.getPhoneNum());
+        user.setAddress(newUser.getAddress());
 
         userRepository.save(user);
 

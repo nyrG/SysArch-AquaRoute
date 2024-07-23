@@ -22,32 +22,25 @@ public class User {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    private String firstName;
-    private String lastName;
-    private String middleName;
-    private String birthdate;
+    @NotBlank(message = "Type is required")
+    private String type;
 
-    private String street;
-    private String barangay;
-    private String city;
-    private String province;
+    private Name name;
+
+    private Address address;
+
+    private String phoneNum;
 
     public User(){
-
     }
 
-    public User(String firstName, String lastName, String middleName, String birthdate, String street,
-            String barangay, String city, String province, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.birthdate = birthdate;
-        this.street = street;
-        this.barangay = barangay;
-        this.city = city;
-        this.province = province;
+    public User(String email, String password, String type, Name name, Address address, String phoneNum) {
         this.email = email;
         this.password = password;
+        this.type = type;
+        this.name = name;
+        this.address = address;
+        this.phoneNum = phoneNum;
     }
 
     public ObjectId getId() {
@@ -56,66 +49,51 @@ public class User {
     public void setId(ObjectId id) {
         this.id = id;
     }
+
+
     public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
         this.email = email;
     }
+
+
     public String getPassword() {
         return password;
     }
     public void setPassword(String password) {
         this.password = password;
-    } 
-    
-    public String getFirstName() {
-        return firstName;
-    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    public String getLastName() {
-        return lastName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public String getMiddleName() {
-        return middleName;
-    }
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-    public String getBirthdate() {
-        return birthdate;
-    }
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
     }
 
-    public String getStreet() {
-        return street;
+
+    public String getType() {
+        return type;
     }
-    public void setStreet(String street) {
-        this.street = street;
+    public void setType(String type) {
+        this.type = type;
     }
-    public String getBarangay() {
-        return barangay;
+
+
+    public Name getName() {
+        return name;
     }
-    public void setBarangay(String barangay) {
-        this.barangay = barangay;
+    public void setName(Name name) {
+        this.name = name;
     }
-    public String getCity() {
-        return city;
+
+    public Address getAddress() {
+        return address;
     }
-    public void setCity(String city) {
-        this.city = city;
+    public void setAddress(Address address) {
+        this.address = address;
     }
-    public String getProvince() {
-        return province;
+
+    public String getPhoneNum() {
+        return phoneNum;
     }
-    public void setProvince(String province) {
-        this.province = province;
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
+
 }
