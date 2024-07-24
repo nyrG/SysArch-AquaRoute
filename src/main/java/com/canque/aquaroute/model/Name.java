@@ -1,8 +1,15 @@
 package com.canque.aquaroute.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class Name {
+
+    @NotBlank(message = "First name is required")
     private String firstName;
+    
+    @NotBlank(message = "Last name is required")
     private String lastName;
+
     private String middleName;
 
     public Name() {

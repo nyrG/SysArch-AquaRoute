@@ -1,115 +1,114 @@
 package com.canque.aquaroute.model;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.canque.aquaroute.util.ObjectIdSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Document(collection = "Orders")
 public class Order {
 
+    @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
+    private ObjectId id;
+
+    @NotNull(message = "User ID is required")
     private ObjectId userId;
-    private String stationId;
+
+    @NotBlank(message = "Station name is required")
+    private String stationName;
+    
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be positive")
     private double price;
+
+    @NotNull(message = "Quantity is required")
+    @Positive(message = "Quantity must be positive")
     private int quantity;
-    private double totalAmount;
+
+    @NotNull(message = "Status is required")
+    @NotBlank(message = "Status is required")
     private String status;
+
     private Date orderDate;
     private Date deliveryDate;
-    private String deliveryAddress;
+
+    //@NotNull(message = "Delivery address is required")
+    private Address deliveryAddress;
 
     public Order() {
     }
 
-    public Order(ObjectId userId, String stationId, Double price, Integer quantity, Double totalAmount, String status, Date orderDate, Date deliveryDate, String deliveryAddress) {
+    public Order(ObjectId userId, String stationName, double price, int quantity, String status, Date orderDate, Date deliveryDate, Address deliveryAddress) {
         this.userId = userId;
-        this.stationId = stationId;
+        this.stationName = stationName;
         this.price = price;
         this.quantity = quantity;
-        this.totalAmount = totalAmount;
         this.status = status;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;
         this.deliveryAddress = deliveryAddress;
     }
 
-    // Getters and setters
-
+    public ObjectId getId() {
+        return id;
+    }
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
     public ObjectId getUserId() {
         return userId;
     }
-
     public void setUserId(ObjectId userId) {
         this.userId = userId;
     }
-
-    public String getStationId() {
-        return stationId;
+    public String getStationName() {
+        return stationName;
     }
-
-    public void setStationId(String stationId) {
-        this.stationId = stationId;
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
     }
-
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
-
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
-
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
-
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
     public Date getOrderDate() {
         return orderDate;
     }
-
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
-
     public Date getDeliveryDate() {
         return deliveryDate;
     }
-
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
-
-    public String getDeliveryAddress() {
+    public Address getDeliveryAddress() {
         return deliveryAddress;
     }
-
-    public void setDeliveryAddress(String deliveryAddress) {
+    public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
 }

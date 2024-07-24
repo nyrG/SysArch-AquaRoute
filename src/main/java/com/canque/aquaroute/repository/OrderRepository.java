@@ -8,6 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.canque.aquaroute.model.Order;
 
 public interface OrderRepository extends MongoRepository<Order, ObjectId> {
-    List<Order> findByUserId(ObjectId userId);
-    List<Order> findByStationId(String stationId);
+    List<Order> findByStationName(String stationName);
 }

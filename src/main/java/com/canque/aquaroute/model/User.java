@@ -2,19 +2,25 @@ package com.canque.aquaroute.model;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.canque.aquaroute.util.ObjectIdSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Document(collection = "Users")
 public class User {
 
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
     
     @Email(message = "Email should be valid")
+    @NotNull(message = "Email cannot be null")
     @NotBlank(message = "Email is required")
     private String email;
 

@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/findUser/{email}")
-    public ResponseEntity<?> findUserByEmail(@RequestParam String email) {
+    public ResponseEntity<?> findUserByEmail(@PathVariable String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             return ResponseEntity.ok(user);
@@ -102,7 +103,7 @@ public class UserController {
     }
     
     @DeleteMapping("/deleteUser/{email}")
-    public ResponseEntity<?> deleteUserByEmail(@RequestParam String email) {
+    public ResponseEntity<?> deleteUserByEmail(@PathVariable String email) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             userRepository.deleteByEmail(email);
@@ -113,7 +114,7 @@ public class UserController {
     }
 
     @PutMapping("/updateUser/{email}")
-    public ResponseEntity<String> updateUserByEmail(@Valid @RequestParam String email, @RequestBody User newUser, BindingResult bindingResult) {
+    public ResponseEntity<String> updateUserByEmail(@Valid @PathVariable String email, @Valid @RequestBody User newUser, BindingResult bindingResult) {
         // Check for validation errors
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
